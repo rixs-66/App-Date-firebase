@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View,Text,Image,StyleSheet } from 'react-native';
+import { View,Image,StyleSheet } from 'react-native';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
@@ -22,6 +22,8 @@ const changeform = () =>{
 }
 
 export default Auth;
+
+console.disableYellowBox = true;
 
 const styles = StyleSheet.create({
     view:{

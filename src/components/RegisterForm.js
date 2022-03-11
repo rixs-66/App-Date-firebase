@@ -1,32 +1,58 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import colors from '../utils/colors';
+import { validateEmail } from '../utils/validation';
 
 
-export default function RegisterForm(pros) {
+export default function RegisterForm(props) {
 
 
-    const [formData, setformData] = useState(defaultValue);
+    const [formData, setformData] = useState(defaultValue);    
+    const { changeform } = props;
 
-    const { changeform } = pros;
+    const [forError, setforError] = useState({});
+
+
     const register = () => {
-        console.log("registrando...")
-        console.log(formData)
+       let error = {  };
+       if (!formData.email || !formData.password || !formData.repeatPassword){
+           if(!formData.email)  error.email = true;
+           if(!formData.password)  error.password = true;
+           if(!formData.repeatPassword)  error.repeatPassword = true;
+       }else if (!validateEmail(formData.email)) {
+           error.email = true;
+           alert("Correo invalido");
+       }else if (formData.password !== formData.repeatPassword) {
+           error.password = true;
+           error.repeatPassword = true;
+           alert("La contraseña no coincide");           
+       }else if (formData.password.length < 6) {
+           error.password = true;
+           error.repeatPassword = true;    
+           alert("La contraseña debe tener minimo 6 caracteres")      
+       }else {
+           alert("formulario validado")
+       }
+       setforError(error)
+       console.log(error)
+       
+       
     }
     return (
         <>
-            <TextInput style={styles.input}
+            <TextInput style={[styles.input, forError.email && styles.error  ]}
                 placeholder='Correo'
                 placeholderTextColor={'#969696'}
-                onChange={(e) => setformData({...formData, email: e.nativeEvent.text})} />
+                onChange={(e) => setformData({...formData, email: e.nativeEvent.text})
+                } />
 
-            <TextInput style={styles.input}
+            <TextInput style={[styles.input, forError.password && styles.error  ]}
                 placeholder='Contraseña'
                 placeholderTextColor={'#969696'}
                 secureTextEntry={true} 
                 onChange={(e) => setformData({ ...formData,password: e.nativeEvent.text})}/>
 
-            <TextInput style={styles.input}
+            <TextInput style={[styles.input, forError.repeatPassword && styles.error  ]}
                 placeholder='Repetir contraseña'
                 placeholderTextColor={'#969696'}
                 secureTextEntry={true}
@@ -98,5 +124,9 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         borderWidth: 1,
         marginBottom: 10,
-    }
+    },
+    error:{
+        borderColor: 'red',
+        borderWidth: 1
+,    }
 })

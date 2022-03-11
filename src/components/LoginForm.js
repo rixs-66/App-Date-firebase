@@ -6,6 +6,7 @@ import colors from '../utils/colors';
 export default function LoginForm(props) {
 
     const { changeform } = props;
+    
     const Login = () =>{
         console.log("iniciando sesion...")
     }
