@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, SafeAreaView, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import firebase from './src/utils/firebase';
 import 'firebase/auth'
+import Auth from './src/components/Auth';
+
 
 export default function App() {
 
@@ -15,25 +17,32 @@ export default function App() {
     }
     )
   }, []);
-  
+
 
   if (user === undefined) return null;
 
 
   return (
 
-    <LinearGradient style={styles.container} colors={[colors.SECONDARY_COLOR_GRADIANT, colors.SECONDARY_COLOR_GRADIANT_DARK]}>
+    <>
 
-      <SafeAreaView>
-        <StatusBar backgroundColor={colors.SECONDARY_COLOR_GRADIANT} />
-        {user ? <Text style={{color: 'white'}}>Logeado</Text> : <Text style={{color: 'white'}}>no logeado</Text>}
+      <StatusBar barStyle='light-content' backgroundColor={colors.SECONDARY_COLOR_GRADIANT} />
+
+      <SafeAreaView >
+        <LinearGradient style={styles.fondo} colors={[colors.SECONDARY_COLOR_GRADIANT, colors.SECONDARY_COLOR_GRADIANT_DARK]}>
+          {user ? <Text style={{ color: 'white' }}>Logeado</Text> : <Auth />}
+        </LinearGradient>
+
       </SafeAreaView>
-    </LinearGradient>
+
+
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  fondo: {
+    height: '100%',
+
+  }
 });
