@@ -2,61 +2,72 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import React, { useState, useEffect } from 'react';
 import colors from '../utils/colors';
 import { validateEmail } from '../utils/validation';
+import firebase from '../utils/firebase';
 
 
 export default function RegisterForm(props) {
 
 
-    const [formData, setformData] = useState(defaultValue);    
+    const [formData, setformData] = useState(defaultValue);
+    const [forError, setforError] = useState({});
     const { changeform } = props;
 
-    const [forError, setforError] = useState({});
+    
 
 
     const register = () => {
-       let error = {  };
-       if (!formData.email || !formData.password || !formData.repeatPassword){
-           if(!formData.email)  error.email = true;
-           if(!formData.password)  error.password = true;
-           if(!formData.repeatPassword)  error.repeatPassword = true;
-       }else if (!validateEmail(formData.email)) {
-           error.email = true;
-           alert("Correo invalido");
-       }else if (formData.password !== formData.repeatPassword) {
-           error.password = true;
-           error.repeatPassword = true;
-           alert("La contraseña no coincide");           
-       }else if (formData.password.length < 6) {
-           error.password = true;
-           error.repeatPassword = true;    
-           alert("La contraseña debe tener minimo 6 caracteres")      
-       }else {
-           alert("formulario validado")
-       }
-       setforError(error)
-       console.log(error)
-       
-       
+        let error = {};
+        if (!formData.email || !formData.password || !formData.repeatPassword) {
+            if (!formData.email) error.email = true;
+            if (!formData.password) error.password = true;
+            if (!formData.repeatPassword) error.repeatPassword = true;
+        } else if (!validateEmail(formData.email)) {
+            error.email = true;
+            alert("Correo invalido");
+        } else if (formData.password !== formData.repeatPassword) {
+            error.password = true;
+            error.repeatPassword = true;
+            alert("La contraseña no coincide");
+        } else if (formData.password.length < 6) {
+            error.password = true;
+            error.repeatPassword = true;
+            alert("La contraseña debe tener minimo 6 caracteres")
+        } else {
+            firebase.auth().createUserWithEmailAndPassword(formData.email, formData.password)
+                .then(() => {
+                    alert("Registro realizado con exito")
+                }).catch(() => {
+                    setforError({
+                        email: true,
+                        password: true,
+                        repeatPassword: true
+                    })
+                })
+        }
+        setforError(error);
+        console.log(error);
+
+
     }
     return (
         <>
-            <TextInput style={[styles.input, forError.email && styles.error  ]}
+            <TextInput style={[styles.input, forError.email && styles.error]}
                 placeholder='Correo'
                 placeholderTextColor={'#969696'}
-                onChange={(e) => setformData({...formData, email: e.nativeEvent.text})
+                onChange={(e) => setformData({ ...formData, email: e.nativeEvent.text })
                 } />
 
-            <TextInput style={[styles.input, forError.password && styles.error  ]}
+            <TextInput style={[styles.input, forError.password && styles.error]}
                 placeholder='Contraseña'
                 placeholderTextColor={'#969696'}
-                secureTextEntry={true} 
-                onChange={(e) => setformData({ ...formData,password: e.nativeEvent.text})}/>
+                secureTextEntry={true}
+                onChange={(e) => setformData({ ...formData, password: e.nativeEvent.text })} />
 
-            <TextInput style={[styles.input, forError.repeatPassword && styles.error  ]}
+            <TextInput style={[styles.input, forError.repeatPassword && styles.error]}
                 placeholder='Repetir contraseña'
                 placeholderTextColor={'#969696'}
                 secureTextEntry={true}
-                onChange={(e) => setformData({...formData,repeatPassword: e.nativeEvent.text})} />
+                onChange={(e) => setformData({ ...formData, repeatPassword: e.nativeEvent.text })} />
 
             <View style={{ width: '100%', alignItems: 'center' }}>
                 <TouchableOpacity style={styles.btn} onPress={register}>
@@ -94,7 +105,7 @@ const styles = StyleSheet.create({
 
     },
     text2: {
-        color: '#002fff',
+        color: '#566fdd',
         fontSize: 18,
     },
     input: {
@@ -125,8 +136,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 10,
     },
-    error:{
+    error: {
         borderColor: 'red',
         borderWidth: 1
-,    }
+        ,
+    }
 })

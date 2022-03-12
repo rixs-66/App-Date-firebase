@@ -1,26 +1,51 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import colors from '../utils/colors';
+import { validateEmail } from '../utils/validation';
+import firebase from '../utils/firebase';
 
 
 export default function LoginForm(props) {
 
+    const [logear, setlogear] = useState();
+    const [formData, setformData] = useState(defaultValue);
+    const [formError, setformError] = useState({});
+
+
+
     const { changeform } = props;
-    
-    const Login = () =>{
-        console.log("iniciando sesion...")
+
+    const Login = () => {
+        let error = {};
+
+        if (!formData.email || !formData.password) {
+            if (!formData.email) error.email = true;
+            if (!formData.password) error.password = true;
+        }else if(!validateEmail(formData.email)){
+            error.email = true
+        }else {
+            console.log("OK")
+        }
+        setformError(error)
+    }
+
+    const onChange = (e, type) => {
+        setformData()
+        setformData({ ...formData, [type]: e.nativeEvent.text })
     }
 
     return (
         <>
             <TextInput style={styles.input}
                 placeholder='Correo'
-                placeholderTextColor={'#969696'} />
+                placeholderTextColor={'#969696'}
+                onChange={(e) => onChange(e, 'email')} />
 
             <TextInput style={styles.input}
                 placeholder='Contraseña'
                 placeholderTextColor={'#969696'}
-                secureTextEntry={true} />
+                secureTextEntry={true}
+                onChange={(e) => onChange(e, 'password')} />
 
             <View style={{ width: '100%', alignItems: 'center' }}>
                 <TouchableOpacity style={styles.btn} onPress={Login} >
@@ -38,6 +63,15 @@ export default function LoginForm(props) {
     )
 }
 
+function defaultValue() {
+    return {
+        email: "",
+        password: ""
+    }
+
+
+}
+
 const styles = StyleSheet.create({
     text: {
         color: 'white',
@@ -45,7 +79,7 @@ const styles = StyleSheet.create({
 
     },
     text2: {
-        color: '#002fff',
+        color: '#566fdd',
         fontSize: 18,
     },
     input: {
