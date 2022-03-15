@@ -1,9 +1,10 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View,LogBox } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import colors from '../utils/colors';
 import { validateEmail } from '../utils/validation';
 import firebase from '../utils/firebase';
 
+LogBox.ignoreLogs(['AsyncStorage has been extracted']);
 
 export default function LoginForm(props) {
 
@@ -24,7 +25,14 @@ export default function LoginForm(props) {
         }else if(!validateEmail(formData.email)){
             error.email = true
         }else {
-            console.log("OK")
+            firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).
+            then(() => {
+                
+            }).catch(( )=>{
+                alert("Correos o contraseñas incorrectos")
+                email: true;
+                password: true;
+            })
         }
         setformError(error)
     }
@@ -36,12 +44,12 @@ export default function LoginForm(props) {
 
     return (
         <>
-            <TextInput style={styles.input}
+            <TextInput style={[styles.input, formError.email && styles.error]}
                 placeholder='Correo'
                 placeholderTextColor={'#969696'}
                 onChange={(e) => onChange(e, 'email')} />
 
-            <TextInput style={styles.input}
+            <TextInput style={[styles.input, formError.password && styles.error]}
                 placeholder='Contraseña'
                 placeholderTextColor={'#969696'}
                 secureTextEntry={true}
@@ -109,6 +117,11 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         borderWidth: 1,
         marginBottom: 10,
+    },
+    error: {
+        borderColor: 'red',
+        borderWidth: 1
+        
     }
 
 })

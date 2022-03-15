@@ -10,16 +10,24 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "4.0.0",
     "expo": "~44.0.0",
     "expo-linear-gradient": "~11.0.3",
     "expo-status-bar": "~1.2.0",
+    "firebase": "~8.9.0",
+    "lottie-react-native": "5.0.1",
+    "moment": "^2.29.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
+    "react-native-modal-datetime-picker": "^13.1.0",
     "react-native-web": "0.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "userInterfaceStyle": "automatic"
+  }
 }

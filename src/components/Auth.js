@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, StyleSheet, LogBox } from 'react-native';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import LottieView from 'lottie-react-native';
 
 
 
@@ -15,7 +16,10 @@ function Auth() {
 
     return (
         <View style={styles.view}>
-            <Image style={styles.logo} source={require('../assets/timetable.png')} />
+            <LottieView style={styles.logo}
+                source={require('../assets/lotties/calendar.json' )}
+                autoPlay={true}
+                loop={true} />
             {isLogin ? <LoginForm changeform={changeform} /> : <RegisterForm changeform={changeform} />}
         </View>
     );
@@ -37,11 +41,9 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 50,
-        width: '80%',
-        height: 200,
+        width: '100%',
+        height: 250,
         marginBottom: 50,
-        resizeMode: 'contain',
-
-
+        
     }
 })

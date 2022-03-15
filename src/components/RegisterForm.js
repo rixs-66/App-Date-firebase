@@ -1,10 +1,10 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, LogBox } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import colors from '../utils/colors';
 import { validateEmail } from '../utils/validation';
 import firebase from '../utils/firebase';
 
-
+LogBox.ignoreLogs(['AsyncStorage has been extracted']);
 export default function RegisterForm(props) {
 
 
@@ -12,7 +12,7 @@ export default function RegisterForm(props) {
     const [forError, setforError] = useState({});
     const { changeform } = props;
 
-    
+
 
 
     const register = () => {
@@ -139,6 +139,6 @@ const styles = StyleSheet.create({
     error: {
         borderColor: 'red',
         borderWidth: 1
-        ,
+
     }
 })

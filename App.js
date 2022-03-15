@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import firebase from './src/utils/firebase';
 import 'firebase/auth'
 import Auth from './src/components/Auth';
+import ListDate from './src/components/ListDate';
 
 
 
@@ -33,7 +34,7 @@ export default function App() {
 
       <SafeAreaView >
         <LinearGradient style={styles.fondo} colors={[colors.SECONDARY_COLOR_GRADIANT, colors.SECONDARY_COLOR_GRADIANT_DARK]}>
-          {user ? <LogOut /> : <Auth />}
+          {user ? <ListDate /> : <Auth />}
         </LinearGradient>
 
       </SafeAreaView>
@@ -43,19 +44,7 @@ export default function App() {
   );
 }
 
-function LogOut() {
 
-const logout = () =>{
- firebase.auth().signOut();
-}
-
-  return (
-    <View>
-      <Text style={{color: 'white', fontSize: 20}}>Estas Logeado</Text>
-      <Button title="LogOut" onPress={logout}/>
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
   fondo: {
