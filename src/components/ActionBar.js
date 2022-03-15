@@ -5,7 +5,7 @@ import colors from '../utils/colors'
 
 LogBox.ignoreLogs(['AsyncStorage has been extracted']);
 export default function ActionBar(props) {
-    console.log(props);
+ 
     const { showList, setshowList } = props;
 
     return (

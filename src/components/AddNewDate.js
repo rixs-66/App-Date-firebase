@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, LogBox} from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, LogBox } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import colors from '../utils/colors'
 import DateTimePicker from 'react-native-modal-datetime-picker'
@@ -6,19 +6,27 @@ import moment from 'moment';
 import LottieView from 'lottie-react-native';
 import firebase from '../utils/firebase';
 import 'firebase/firestore';
+import { Alert } from 'react-native-web';
 
 
 
 const db = firebase.firestore(firebase);
 
 LogBox.ignoreLogs(['Setting a timer for a long period of time']);
-LogBox.ignoreLogs(['console.disableYellowBox']);
-LogBox.ignoreLogs(['AsyncStorage has been extracted']);
 
-export default function AddNewDate() {
+
+export default function AddNewDate(props) {
+  const { user, setshowList, setReloadData } = props;
+
+
+
   //definicion de los hooks
   const [isDatePickerVisible, setisDatePickerVisible] = useState(false);
-  const [FormData, setFormData] = useState({});
+  const [FormData, setFormData] = useState({
+    Nombre: '',
+    Descripcion: '',
+    datetxt: ''
+  });
   const [formError, setFormError] = useState({});
 
   //Se definen las funciones
@@ -51,14 +59,22 @@ export default function AddNewDate() {
       if (!FormData.Nombre) error.Nombre = true;
       if (!FormData.Descripcion) error.Descripcion = true;
       if (!FormData.datetxt) error.datetxt = true;
+    } else if (FormData.Nombre.length > 8) {
+      alert('Maximo 8 caracteres Nombre')
+      error.Nombre = true;
+      if (FormData.Descripcion.length > 8) {
+        error.Descripcion = true;
+        alert('Maximo 8 caracteres Descripcion')
+      }
+
     } else {
 
       const date = FormData;
       date.datetxt.setYear(0);
-      console.log(FormData);
-      db.collection('cumple').
+      db.collection(user.uid).
         add(date).then(() => {
-          alert('OK')
+          setReloadData(true)
+          setshowList(true);
         }).catch(() => {
           setFormError({ Nombre: true, Descripcion: true, datetxt: true });
           alert('ALgo salio mal..... Intentelo de nuevo')
@@ -69,6 +85,10 @@ export default function AddNewDate() {
     setFormError(error);
 
   }
+
+
+
+
   // Visual
   return (
     <>
@@ -110,7 +130,10 @@ export default function AddNewDate() {
 
     </>
   )
+
 }
+
+
 //estilos
 const styles = StyleSheet.create({
   container: {
