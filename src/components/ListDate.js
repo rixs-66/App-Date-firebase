@@ -6,6 +6,7 @@ import firebase from '../utils/firebase';
 import 'firebase/firestore';
 import moment from 'moment';
 import RenderDate from './RenderDate';
+import * as Animatable from 'react-native-animatable';
 
 const db = firebase.firestore(firebase);
 
@@ -110,7 +111,7 @@ export default function ListDate(props) {
 
 
   return (
-    <View style={styles.container}>
+    <Animatable.View animation={'bounceInDown'} style={styles.container}>
 
       {showList ? (
 
@@ -139,8 +140,8 @@ export default function ListDate(props) {
         setReloadData={setReloadData} />)
       }
 
-      <ActionBar showList={showList} setshowList={setshowList} />
-    </View>
+<ActionBar  showList={showList} setshowList={setshowList} />
+    </Animatable.View>
   )
 }
 

@@ -6,7 +6,9 @@ import moment from 'moment';
 import LottieView from 'lottie-react-native';
 import firebase from '../utils/firebase';
 import 'firebase/firestore';
-import { Alert } from 'react-native-web';
+import * as Animatable from 'react-native-animatable';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 
 
@@ -91,47 +93,51 @@ export default function AddNewDate(props) {
 
   // Visual
   return (
-    <>
-      <View style={styles.container}>
-        <LottieView style={styles.LottieView}
-          source={require('../assets/lotties/calendar2.json')}
-          autoPlay={true}
-          loop={true} />
+    <KeyboardAwareScrollView style={{width: '100%'}} getTextInputRefs={() => { return [this._textInputRef];}}>
+      <Animatable.View animation={'fadeInUpBig'} style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={styles.container}>
+          <LottieView style={styles.LottieView}
+            source={require('../assets/lotties/calendar2.json')}
+            autoPlay={true}
+            loop={true} />
 
-        <TextInput
-          placeholder='Nombre'
-          placeholderTextColor={'#969696'}
-          style={[styles.input, formError.Nombre && styles.error]}
-          onChange={(e) => onChange(e, 'Nombre')
-          } />
+          <TextInput
+            placeholder='Nombre'
+            placeholderTextColor={'#969696'}
+            style={[styles.input, formError.Nombre && styles.error]}
+            onChange={(e) => onChange(e, 'Nombre')
+            } />
 
-        <TextInput
-          placeholder='Descripción'
-          placeholderTextColor={'#969696'}
-          style={[styles.input, formError.Descripcion && styles.error]}
-          onChange={(e) => onChange(e, 'Descripcion')
-          
-          } />
+          <TextInput
+            placeholder='Descripción'
+            placeholderTextColor={'#969696'}
+            style={[styles.input, formError.Descripcion && styles.error]}
+            onChange={(e) => onChange(e, 'Descripcion')
 
-        <Text style={[styles.TextInput,
-        { color: FormData.datetxt ? 'white' : '#969696' },
-        formError.datetxt && styles.error]}
-          onPress={showDatePicker}>
-          {FormData.datetxt ? moment(FormData.datetxt).format('LL') : 'Fecha'}
-        </Text>
-        <TouchableOpacity style={[styles.viewAdd]} onPress={onSubmit}>
-          <Text style={{ color: 'white' }}>Guardar</Text>
-        </TouchableOpacity>
+            } />
 
-      </View>
-      <DateTimePicker
-        isVisible={isDatePickerVisible}
-        mode="Fecha"
-        onConfirm={handlerData}
-        onCancel={onCancel} />
+          <Text style={[styles.TextInput,
+          { color: FormData.datetxt ? 'white' : '#969696' },
+          formError.datetxt && styles.error]}
+            onPress={showDatePicker}>
+            {FormData.datetxt ? moment(FormData.datetxt).format('LL') : 'Fecha'}
+          </Text>
+          <TouchableOpacity style={[styles.viewAdd]} onPress={onSubmit}>
+            <Text style={{ color: 'white' }}>Guardar</Text>
+          </TouchableOpacity>
+
+        </View>
+        <DateTimePicker
+          isVisible={isDatePickerVisible}
+          mode="Fecha"
+          onConfirm={handlerData}
+          onCancel={onCancel} />
 
 
-    </>
+
+
+      </Animatable.View>
+    </KeyboardAwareScrollView>
   )
 
 }
@@ -188,7 +194,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     paddingVertical: 10,
     paddingHorizontal: 30,
-    marginBottom: 5
+    marginBottom: 5,
+    position: 'relative'
 
   },
   error: {

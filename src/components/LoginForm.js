@@ -1,8 +1,11 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View,LogBox } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, LogBox } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import colors from '../utils/colors';
 import { validateEmail } from '../utils/validation';
 import firebase from '../utils/firebase';
+import * as Animatable from 'react-native-animatable';
+
+
 
 LogBox.ignoreLogs(['AsyncStorage has been extracted']);
 
@@ -14,7 +17,7 @@ export default function LoginForm(props) {
 
 
 
-    const { changeform } = props;
+    const { changeform, isLogin } = props;
 
     const Login = () => {
         let error = {};
@@ -22,17 +25,17 @@ export default function LoginForm(props) {
         if (!formData.email || !formData.password) {
             if (!formData.email) error.email = true;
             if (!formData.password) error.password = true;
-        }else if(!validateEmail(formData.email)){
+        } else if (!validateEmail(formData.email)) {
             error.email = true
-        }else {
+        } else {
             firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).
-            then(() => {
-                
-            }).catch(( )=>{
-                alert("Correos o contraseñas incorrectos")
-                email: true;
-                password: true;
-            })
+                then(() => {
+
+                }).catch(() => {
+                    alert("Correos o contraseñas incorrectos")
+                    email: true;
+                    password: true;
+                })
         }
         setformError(error)
     }
@@ -43,31 +46,35 @@ export default function LoginForm(props) {
     }
 
     return (
-        <>
-            <TextInput style={[styles.input, formError.email && styles.error]}
-                placeholder='Correo'
-                placeholderTextColor={'#969696'}
-                onChange={(e) => onChange(e, 'email')} />
 
-            <TextInput style={[styles.input, formError.password && styles.error]}
-                placeholder='Contraseña'
-                placeholderTextColor={'#969696'}
-                secureTextEntry={true}
-                onChange={(e) => onChange(e, 'password')} />
+        
+            <Animatable.View animation={isLogin ? 'fadeInLeft' : 'fadeOutLeft'} style={{ width: '100%', alignItems: 'center' }} >
+                <TextInput style={[styles.input, formError.email && styles.error]}
+                    placeholder='Correo'
+                    placeholderTextColor={'#969696'}
+                    onChange={(e) => onChange(e, 'email')} />
 
-            <View style={{ width: '100%', alignItems: 'center' }}>
-                <TouchableOpacity style={styles.btn} onPress={Login} >
-                    <Text style={styles.text} >Iniciar Sesion</Text>
-                </TouchableOpacity>
-            </View>
+                <TextInput style={[styles.input, formError.password && styles.error]}
+                    placeholder='Contraseña'
+                    placeholderTextColor={'#969696'}
+                    secureTextEntry={true}
+                    onChange={(e) => onChange(e, 'password')} />
 
-            <View style={styles.contain}>
-                <Text style={styles.text}>¿No tienes cuenta? </Text>
-                <TouchableOpacity onPress={changeform}>
-                    <Text style={styles.text2}  >Registrate aqui</Text>
-                </TouchableOpacity>
-            </View>
-        </>
+                <View style={{ width: '100%', alignItems: 'center' }}>
+                    <TouchableOpacity style={styles.btn} onPress={Login} >
+                        <Text style={styles.text} >Iniciar Sesion</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.contain}>
+                    <Text style={styles.text}>¿No tienes cuenta? </Text>
+                    <TouchableOpacity onPress={changeform}>
+                        <Text style={styles.text2}  >Regístrate aquí</Text>
+                    </TouchableOpacity>
+                </View>
+            </ Animatable.View>
+      
+
     )
 }
 
@@ -121,7 +128,7 @@ const styles = StyleSheet.create({
     error: {
         borderColor: 'red',
         borderWidth: 1
-        
+
     }
 
 })

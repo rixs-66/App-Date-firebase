@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import colors from '../utils/colors';
 import LottieView from 'lottie-react-native';
+import * as Animatable from 'react-native-animatable';
 
 
 export default function RenderDate(props) {
@@ -24,28 +25,31 @@ export default function RenderDate(props) {
 
       const days = -date.days;
 
-      
+
       return (
+
         <>
-          
-            <LottieView style={{width: 100}}
-              source={require('../assets/lotties/esperar.json')}
-              autoPlay={true}
-              loop={true} />
-            <Text style={{ color: 'white' }}>Faltan: {days} dias</Text>
-          
+
+          <LottieView style={{ width: 100 }}
+            source={require('../assets/lotties/esperar.json')}
+            autoPlay={true}
+            loop={true} />
+          <Text style={{ color: 'white' }}>Faltan: {days} dias</Text>
+
         </>
       )
     }
   }
 
   return (
-    <TouchableOpacity style={[styles.card, pasat ? styles.pasat :
-      date.days === 0 ? styles.actual : styles.current]} 
-      onPress={() => deleteDate(date)}>
-      <Text style={styles.username}>{date.Nombre} {date.Descripcion} </Text>
-      {pasat ? <Text>Pasaron: {-date.days}</Text> : infoDay()}
-    </TouchableOpacity>
+    <Animatable.View animation={'bounceInRight'} >
+      <TouchableOpacity style={[styles.card, pasat ? styles.pasat :
+        date.days === 0 ? styles.actual : styles.current]}
+        onPress={() => deleteDate(date)}>
+        <Text style={styles.username}>{date.Nombre} {date.Descripcion} </Text>
+        {pasat ? <Text style={{color: 'white'}}>Pasaron: {-date.days}</Text> : infoDay()}
+      </TouchableOpacity>
+    </Animatable.View>
   )
 }
 

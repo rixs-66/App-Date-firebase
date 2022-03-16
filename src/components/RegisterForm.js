@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import colors from '../utils/colors';
 import { validateEmail } from '../utils/validation';
 import firebase from '../utils/firebase';
-import { Keyboard } from 'react-native-web';
+import * as Animatable from 'react-native-animatable';
 
 LogBox.ignoreLogs(['AsyncStorage has been extracted']);
 export default function RegisterForm(props) {
@@ -11,7 +11,7 @@ export default function RegisterForm(props) {
 
     const [formData, setformData] = useState(defaultValue);
     const [forError, setforError] = useState({});
-    const { changeform } = props;
+    const { changeform, isLogin } = props;
 
 
 
@@ -51,7 +51,7 @@ export default function RegisterForm(props) {
 
     }
     return (
-        <>
+        <Animatable.View animation={isLogin ? 'fadeOutLeft' : 'fadeInRight'} style={{width: '100%', alignItems: 'center'}}>
             <TextInput style={[styles.input, forError.email && styles.error]}
                 placeholder='Correo'
                 placeholderTextColor={'#969696'}
@@ -79,10 +79,10 @@ export default function RegisterForm(props) {
             <View style={styles.contain}>
                 <Text style={styles.text}>¿Ya tienes cuenta? </Text>
                 <TouchableOpacity onPress={changeform}>
-                    <Text style={styles.text2}  >Inicia sesion</Text>
+                    <Text style={styles.text2}  >Inicia sesión</Text>
                 </TouchableOpacity>
             </View>
-        </>
+        </Animatable.View>
     )
 }
 

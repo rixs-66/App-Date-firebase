@@ -7,6 +7,7 @@ import 'firebase/auth'
 import Auth from './src/components/Auth';
 import ListDate from './src/components/ListDate';
 
+
 LogBox.ignoreLogs(['AsyncStorage has been extracted']);
 
 export default function App() {

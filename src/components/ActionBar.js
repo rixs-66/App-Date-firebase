@@ -12,7 +12,7 @@ export default function ActionBar(props) {
         <View style={styles.viewFooter}>
             <View>
                 <TouchableOpacity style={styles.viewClose} onPress={() => firebase.auth().signOut()}>
-                    <Text style={styles.text} > Cerrar Sesion</Text>
+                    <Text style={styles.text} > Cerrar Sesión</Text>
                 </TouchableOpacity>
             </View>
             <View >
@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         justifyContent: 'space-between',
-        alignItems: 'center',
         paddingHorizontal: 30,
+        
 
     },
 
