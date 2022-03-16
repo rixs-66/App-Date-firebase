@@ -102,13 +102,16 @@ export default function AddNewDate(props) {
           placeholder='Nombre'
           placeholderTextColor={'#969696'}
           style={[styles.input, formError.Nombre && styles.error]}
-          onChange={(e) => onChange(e, 'Nombre')} />
+          onChange={(e) => onChange(e, 'Nombre')
+          } />
 
         <TextInput
           placeholder='Descripción'
           placeholderTextColor={'#969696'}
           style={[styles.input, formError.Descripcion && styles.error]}
-          onChange={(e) => onChange(e, 'Descripcion')} />
+          onChange={(e) => onChange(e, 'Descripcion')
+          
+          } />
 
         <Text style={[styles.TextInput,
         { color: FormData.datetxt ? 'white' : '#969696' },
