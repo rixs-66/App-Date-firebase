@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import colors from '../utils/colors';
 import LottieView from 'lottie-react-native';
-import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
+
 
 export default function RenderDate(props) {
 
-  const { date } = props;
+  const { date, deleteDate } = props;
   const pasat = date.days > 0 ? true : false;
   const infoDay = () => {
 
@@ -23,6 +23,8 @@ export default function RenderDate(props) {
     } else {
 
       const days = -date.days;
+
+      
       return (
         <>
           
@@ -39,12 +41,10 @@ export default function RenderDate(props) {
 
   return (
     <TouchableOpacity style={[styles.card, pasat ? styles.pasat :
-      date.days === 0 ? styles.actual : styles.current]}>
+      date.days === 0 ? styles.actual : styles.current]} 
+      onPress={() => deleteDate(date)}>
       <Text style={styles.username}>{date.Nombre} {date.Descripcion} </Text>
-      {pasat ? <LottieView style={{ width: 60 }}
-        source={require('../assets/lotties/expire.json')}
-        autoPlay={true}
-        loop={true} /> : infoDay()}
+      {pasat ? <Text>Pasaron: {-date.days}</Text> : infoDay()}
     </TouchableOpacity>
   )
 }

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { StyleSheet, Alert, View, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import ActionBar from './ActionBar';
 import AddNewDate from './AddNewDate';
@@ -36,7 +36,7 @@ export default function ListDate(props) {
         });
         filterDate(itemArray);
       });
-      setReloadData(false);
+    setReloadData(false);
   }, [reloadData]);
 
 
@@ -81,6 +81,32 @@ export default function ListDate(props) {
 
   };
 
+  const deleteDate = (Dates) => {
+    Alert.alert(
+      'Eliminar cumpleaños',
+      `¿Estas seguro de eliminar ${Dates.Nombre} ${Dates.Descripcion} ?`,
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel'
+        },
+        {
+          text: 'Eliminar Fecha',
+          onPress: () => {
+            db.collection(user.uid)
+              .doc(Dates.id)
+              .delete().then(() => {
+                setReloadData();
+              })
+          },
+        },
+      ],
+      {
+        cancelable: false
+      }
+    );
+  };
+
 
 
   return (
@@ -93,20 +119,22 @@ export default function ListDate(props) {
 
             <RenderDate
               key={index}
-              date={item} />
+              date={item}
+              deleteDate={deleteDate} />
 
           ))}
 
           {pasatDates.map((item, index) => (
 
-            <RenderDate 
-            key={index}
-            date={item} />
-            
+            <RenderDate
+              key={index}
+              date={item}
+              deleteDate={deleteDate} />
+
           ))}
         </ScrollView>
 
-      ) : (<AddNewDate user={user} 
+      ) : (<AddNewDate user={user}
         setshowList={setshowList}
         setReloadData={setReloadData} />)
       }
@@ -120,14 +148,14 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     height: '100%',
-   
+
 
   },
   scrollView: {
     marginBottom: 50,
     width: '100%',
-    
-    
+
+
   }
 
 })
