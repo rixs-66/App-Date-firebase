@@ -93,8 +93,8 @@ export default function AddNewDate(props) {
 
   // Visual
   return (
-    <KeyboardAwareScrollView style={{width: '100%'}} getTextInputRefs={() => { return [this._textInputRef];}}>
-      <Animatable.View animation={'fadeInUpBig'} style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+    <KeyboardAwareScrollView style={{ height: '100%', width: '100%',zIndex: 0 }} getTextInputRefs={() => { return [this._textInputRef]; }}>
+      <Animatable.View animation={'fadeInUpBig'} style={{ alignItems: 'center', justifyContent: 'center' }}>
         <View style={styles.container}>
           <LottieView style={styles.LottieView}
             source={require('../assets/lotties/calendar2.json')}
@@ -122,6 +122,7 @@ export default function AddNewDate(props) {
             onPress={showDatePicker}>
             {FormData.datetxt ? moment(FormData.datetxt).format('LL') : 'Fecha'}
           </Text>
+
           <TouchableOpacity style={[styles.viewAdd]} onPress={onSubmit}>
             <Text style={{ color: 'white' }}>Guardar</Text>
           </TouchableOpacity>
@@ -132,12 +133,9 @@ export default function AddNewDate(props) {
           mode="Fecha"
           onConfirm={handlerData}
           onCancel={onCancel} />
-
-
-
-
       </Animatable.View>
     </KeyboardAwareScrollView>
+
   )
 
 }
@@ -146,13 +144,13 @@ export default function AddNewDate(props) {
 //estilos
 const styles = StyleSheet.create({
   container: {
-
-    height: '60%',
+    
     marginTop: '30%',
     width: '80%',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+    
 
 
 
@@ -195,7 +193,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 30,
     marginBottom: 5,
-    position: 'relative'
+    zIndex: 1
+
 
   },
   error: {

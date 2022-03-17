@@ -7,6 +7,7 @@ import 'firebase/firestore';
 import moment from 'moment';
 import RenderDate from './RenderDate';
 import * as Animatable from 'react-native-animatable';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const db = firebase.firestore(firebase);
 
@@ -135,12 +136,17 @@ export default function ListDate(props) {
           ))}
         </ScrollView>
 
-      ) : (<AddNewDate user={user}
-        setshowList={setshowList}
-        setReloadData={setReloadData} />)
+      ) : (
+        
+          <AddNewDate user={user}
+            setshowList={setshowList}
+            setReloadData={setReloadData} />
+        
+
+      )
       }
 
-<ActionBar  showList={showList} setshowList={setshowList} />
+      <ActionBar showList={showList} setshowList={setshowList} />
     </Animatable.View>
   )
 }
