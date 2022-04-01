@@ -145,7 +145,7 @@ export default function AddNewDate(props) {
 const styles = StyleSheet.create({
   container: {
     
-    marginTop: '30%',
+    marginTop: '20%',
     width: '80%',
     justifyContent: 'center',
     alignItems: 'center',
