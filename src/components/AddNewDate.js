@@ -93,9 +93,10 @@ export default function AddNewDate(props) {
 
   // Visual
   return (
-    <KeyboardAwareScrollView style={{ height: '100%', width: '100%',zIndex: 0 }} getTextInputRefs={() => { return [this._textInputRef]; }}>
-      <Animatable.View animation={'fadeInUpBig'} style={{ alignItems: 'center', justifyContent: 'center' }}>
+    <KeyboardAwareScrollView style={{ width: '100%', height: '100%' , zIndex: 0 }} getTextInputRefs={() => { return [this._textInputRef]; }}>
+      <Animatable.View animation={'fadeInUpBig'} style={{ alignItems: 'center', justifyContent: 'center', height: '100%' }}>
         <View style={styles.container}>
+
           <LottieView style={styles.LottieView}
             source={require('../assets/lotties/calendar2.json')}
             autoPlay={true}
@@ -127,12 +128,14 @@ export default function AddNewDate(props) {
             <Text style={{ color: 'white' }}>Guardar</Text>
           </TouchableOpacity>
 
+
+          <DateTimePicker
+            isVisible={isDatePickerVisible}
+            mode="Fecha"
+            onConfirm={handlerData}
+            onCancel={onCancel} />
+
         </View>
-        <DateTimePicker
-          isVisible={isDatePickerVisible}
-          mode="Fecha"
-          onConfirm={handlerData}
-          onCancel={onCancel} />
       </Animatable.View>
     </KeyboardAwareScrollView>
 
@@ -144,16 +147,12 @@ export default function AddNewDate(props) {
 //estilos
 const styles = StyleSheet.create({
   container: {
-    
-    marginTop: '20%',
-    width: '80%',
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
-    
-
-
-
+    paddingBottom: '20%',
+  
   },
   input: {
     height: 50,
